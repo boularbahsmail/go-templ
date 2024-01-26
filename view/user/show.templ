@@ -1,0 +1,32 @@
+package user
+
+import (
+    "github.com/boularbahsmail/go-templ/view/layout"
+    "github.com/boularbahsmail/go-templ/view/components"
+    "github.com/boularbahsmail/go-templ/models"
+)
+
+func getAuthenticatedUser(c context.Context) string {
+    user, ok :=  c.Value("User").(string)
+
+    if !ok {
+        return ""
+    }
+
+    return user
+}
+
+templ Show(user models.User) {
+    <h1>
+        {getAuthenticatedUser(ctx)}
+    </h1>
+    @layout.Base() {
+        <div>
+            <h1>Hello {user.Name} From The User Page</h1>
+            @components.Input(components.InputProps{
+                Typ: "email",
+                Plchldr: "Youremail@example.com",
+            })
+        </div>
+    }
+}
